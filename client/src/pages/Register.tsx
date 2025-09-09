@@ -11,8 +11,20 @@ import {
   CircularProgress,
   FormControlLabel,
   Checkbox,
+  InputAdornment,
+  IconButton,
+  Stack,
+  alpha,
 } from '@mui/material';
-import { PersonAdd, Visibility, VisibilityOff } from '@mui/icons-material';
+import { 
+  PersonAdd, 
+  Visibility, 
+  VisibilityOff,
+  Person,
+  Email,
+  Lock,
+  WaterDrop,
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -109,227 +121,575 @@ const Register: React.FC<RegisterProps> = ({ onLogin }) => {
   };
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        backgroundColor: '#f8fafc',
+        position: 'relative',
+      }}
+    >
+      {/* Left Panel - Branding */}
       <Box
         sx={{
-          marginTop: 8,
-          display: 'flex',
+          flex: 1,
+          background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%)',
+          display: { xs: 'none', md: 'flex' },
           flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: `
+              radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 70%),
+              radial-gradient(circle at 70% 80%, rgba(255,255,255,0.08) 0%, transparent 70%)
+            `,
+          },
         }}
       >
-        <Paper
-          elevation={3}
+        <Box
           sx={{
-            padding: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
+            textAlign: 'center',
+            zIndex: 1,
+            px: 4,
           }}
         >
           <Box
             sx={{
-              width: 60,
-              height: 60,
-              borderRadius: '50%',
-              bgcolor: 'primary.main',
+              width: 120,
+              height: 120,
+              borderRadius: '32px',
+              backgroundColor: 'rgba(255,255,255,0.15)',
+              backdropFilter: 'blur(10px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              mb: 2,
+              mx: 'auto',
+              mb: 4,
+              border: '1px solid rgba(255,255,255,0.2)',
             }}
           >
-            <PersonAdd sx={{ color: 'white', fontSize: 30 }} />
+            <WaterDrop sx={{ fontSize: 56, color: 'white' }} />
           </Box>
-
-          <Typography component="h1" variant="h4" gutterBottom>
-            Create Account
+          
+          <Typography
+            variant="h3"
+            sx={{
+              color: 'white',
+              fontWeight: 700,
+              mb: 2,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            Join HMPI
           </Typography>
-
-          <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ mb: 3 }}>
-            Join the Heavy Metal Pollution Index platform
+          
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'rgba(255,255,255,0.9)',
+              fontWeight: 400,
+              mb: 4,
+              maxWidth: 400,
+              lineHeight: 1.6,
+            }}
+          >
+            Create your account to access our comprehensive environmental monitoring tools and research data
           </Typography>
-
-          {error && (
-            <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
-              {error}
-            </Alert>
-          )}
-
-          <Box component="form" onSubmit={handleSubmit(onSubmit as any)} sx={{ width: '100%' }}>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Full Name"
-                  name="name"
-                  autoComplete="name"
-                  autoFocus
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                  disabled={loading}
-                />
-              )}
-            />
-
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  disabled={loading}
-                />
-              )}
-            />
-
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  autoComplete="new-password"
-                  error={!!errors.password}
-                  helperText={errors.password?.message}
-                  disabled={loading}
-                  InputProps={{
-                    endAdornment: (
-                      <Button
-                        onClick={() => setShowPassword(!showPassword)}
-                        sx={{ minWidth: 'auto', p: 1 }}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </Button>
-                    ),
-                  }}
-                />
-              )}
-            />
-
-            <Controller
-              name="confirmPassword"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  id="confirmPassword"
-                  autoComplete="new-password"
-                  error={!!errors.confirmPassword}
-                  helperText={errors.confirmPassword?.message}
-                  disabled={loading}
-                  InputProps={{
-                    endAdornment: (
-                      <Button
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        sx={{ minWidth: 'auto', p: 1 }}
-                      >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                      </Button>
-                    ),
-                  }}
-                />
-              )}
-            />
-
-            <Controller
-              name="agreeToTerms"
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...field}
-                      checked={field.value}
-                      color="primary"
-                      disabled={loading}
-                    />
-                  }
-                  label={
-                    <Typography variant="body2">
-                      I agree to the{' '}
-                      <Link href="#" onClick={(e) => e.preventDefault()}>
-                        Terms of Service
-                      </Link>{' '}
-                      and{' '}
-                      <Link href="#" onClick={(e) => e.preventDefault()}>
-                        Privacy Policy
-                      </Link>
-                    </Typography>
-                  }
-                  sx={{ mt: 1, alignItems: 'flex-start' }}
-                />
-              )}
-            />
-            {errors.agreeToTerms && (
-              <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                {errors.agreeToTerms.message}
-              </Typography>
-            )}
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, py: 1.5 }}
-              disabled={loading}
-              startIcon={loading ? <CircularProgress size={20} /> : <PersonAdd />}
+          
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2,
+              mt: 6,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'rgba(255,255,255,0.8)',
+                fontWeight: 500,
+              }}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
-            </Button>
-
-            <Box sx={{ textAlign: 'center', mt: 2 }}>
-              <Link
-                component="button"
-                variant="body2"
-                onClick={() => navigate('/login')}
-                sx={{ textDecoration: 'none' }}
-              >
-                Already have an account? Sign In
-              </Link>
+              Trusted by 500+ researchers worldwide
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: 3,
+              }}
+            >
+              {[1, 2, 3].map((item) => (
+                <Box
+                  key={item}
+                  sx={{
+                    width: 60,
+                    height: 4,
+                    borderRadius: 2,
+                    backgroundColor: item === 1 ? 'white' : 'rgba(255,255,255,0.3)',
+                    transition: 'all 0.3s ease',
+                  }}
+                />
+              ))}
             </Box>
           </Box>
-        </Paper>
-
-        <Box sx={{ mt: 4, textAlign: 'center' }}>
-          <Typography variant="body2" color="text.secondary">
-            Heavy Metal Pollution Index Platform
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            For CGWB Scientists and Environmental Policymakers
-          </Typography>
         </Box>
       </Box>
-    </Container>
+
+      {/* Right Panel - Registration Form */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 3,
+        }}
+      >
+        <Container maxWidth="sm">
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 4, sm: 6 },
+              borderRadius: 3,
+              backgroundColor: 'white',
+              border: '1px solid #e2e8f0',
+              maxWidth: 520,
+              width: '100%',
+              mx: 'auto',
+            }}
+          >
+            {/* Header */}
+            <Stack alignItems="center" spacing={2} mb={4}>
+              <Box
+                sx={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 2,
+                  backgroundColor: '#eff6ff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <PersonAdd sx={{ fontSize: 32, color: '#3b82f6' }} />
+              </Box>
+              
+              <Box textAlign="center">
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 700,
+                    color: '#1e293b',
+                    mb: 1,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  Create Account
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: '#64748b',
+                    fontWeight: 400,
+                  }}
+                >
+                  Join the HMPI platform today
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* Error Alert */}
+            {error && (
+              <Alert 
+                severity="error" 
+                sx={{ 
+                  mb: 3,
+                  borderRadius: 2,
+                  backgroundColor: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  '& .MuiAlert-icon': {
+                    color: '#ef4444',
+                  },
+                  '& .MuiAlert-message': {
+                    color: '#dc2626',
+                  },
+                }}
+              >
+                {error}
+              </Alert>
+            )}
+
+            {/* Form */}
+            <Box component="form" onSubmit={handleSubmit(onSubmit as any)}>
+              <Stack spacing={3}>
+                <Controller
+                  name="name"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Full name"
+                      placeholder="Enter your full name"
+                      error={!!errors.name}
+                      helperText={errors.name?.message}
+                      disabled={loading}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Person sx={{ color: '#6b7280', fontSize: 20 }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                          backgroundColor: '#f8fafc',
+                          borderColor: '#e2e8f0',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#f1f5f9',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#cbd5e1',
+                            },
+                          },
+                          '&.Mui-focused': {
+                            backgroundColor: 'white',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#3b82f6',
+                              borderWidth: 2,
+                            },
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: '#3b82f6',
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Email address"
+                      placeholder="Enter your email"
+                      error={!!errors.email}
+                      helperText={errors.email?.message}
+                      disabled={loading}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Email sx={{ color: '#6b7280', fontSize: 20 }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                          backgroundColor: '#f8fafc',
+                          borderColor: '#e2e8f0',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#f1f5f9',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#cbd5e1',
+                            },
+                          },
+                          '&.Mui-focused': {
+                            backgroundColor: 'white',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#3b82f6',
+                              borderWidth: 2,
+                            },
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: '#3b82f6',
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Password"
+                      placeholder="Create a strong password"
+                      type={showPassword ? 'text' : 'password'}
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      disabled={loading}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Lock sx={{ color: '#6b7280', fontSize: 20 }} />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                              sx={{ 
+                                color: '#6b7280',
+                                '&:hover': {
+                                  backgroundColor: alpha('#3b82f6', 0.04),
+                                },
+                              }}
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                          backgroundColor: '#f8fafc',
+                          borderColor: '#e2e8f0',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#f1f5f9',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#cbd5e1',
+                            },
+                          },
+                          '&.Mui-focused': {
+                            backgroundColor: 'white',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#3b82f6',
+                              borderWidth: 2,
+                            },
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: '#3b82f6',
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="confirmPassword"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Confirm password"
+                      placeholder="Confirm your password"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      error={!!errors.confirmPassword}
+                      helperText={errors.confirmPassword?.message}
+                      disabled={loading}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Lock sx={{ color: '#6b7280', fontSize: 20 }} />
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              edge="end"
+                              sx={{ 
+                                color: '#6b7280',
+                                '&:hover': {
+                                  backgroundColor: alpha('#3b82f6', 0.04),
+                                },
+                              }}
+                            >
+                              {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 2,
+                          backgroundColor: '#f8fafc',
+                          borderColor: '#e2e8f0',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#f1f5f9',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#cbd5e1',
+                            },
+                          },
+                          '&.Mui-focused': {
+                            backgroundColor: 'white',
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: '#3b82f6',
+                              borderWidth: 2,
+                            },
+                          },
+                        },
+                        '& .MuiInputLabel-root.Mui-focused': {
+                          color: '#3b82f6',
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                {/* Terms and Conditions */}
+                <Box>
+                  <Controller
+                    name="agreeToTerms"
+                    control={control}
+                    render={({ field }) => (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            {...field}
+                            checked={field.value}
+                            disabled={loading}
+                            sx={{
+                              color: '#9ca3af',
+                              '&.Mui-checked': {
+                                color: '#3b82f6',
+                              },
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography variant="body2" sx={{ color: '#64748b' }}>
+                            I agree to the{' '}
+                            <Link
+                              href="#"
+                              onClick={(e) => e.preventDefault()}
+                              sx={{
+                                color: '#3b82f6',
+                                textDecoration: 'none',
+                                '&:hover': {
+                                  textDecoration: 'underline',
+                                },
+                              }}
+                            >
+                              Terms of Service
+                            </Link>{' '}
+                            and{' '}
+                            <Link
+                              href="#"
+                              onClick={(e) => e.preventDefault()}
+                              sx={{
+                                color: '#3b82f6',
+                                textDecoration: 'none',
+                                '&:hover': {
+                                  textDecoration: 'underline',
+                                },
+                              }}
+                            >
+                              Privacy Policy
+                            </Link>
+                          </Typography>
+                        }
+                        sx={{ 
+                          alignItems: 'flex-start',
+                          mt: 0.5,
+                        }}
+                      />
+                    )}
+                  />
+                  {errors.agreeToTerms && (
+                    <Typography 
+                      variant="caption" 
+                      sx={{ 
+                        color: '#ef4444',
+                        mt: 0.5,
+                        display: 'block',
+                        fontSize: '0.75rem',
+                      }}
+                    >
+                      {errors.agreeToTerms.message}
+                    </Typography>
+                  )}
+                </Box>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  disabled={loading}
+                  startIcon={loading ? <CircularProgress size={16} color="inherit" /> : <PersonAdd />}
+                  sx={{
+                    py: 2,
+                    borderRadius: 2,
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    backgroundColor: '#3b82f6',
+                    textTransform: 'none',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                    '&:hover': {
+                      backgroundColor: '#2563eb',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    },
+                    '&:active': {
+                      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                    },
+                  }}
+                >
+                  {loading ? 'Creating account...' : 'Create account'}
+                </Button>
+              </Stack>
+
+              {/* Footer Links */}
+              <Stack spacing={2} mt={4} alignItems="center">
+                <Link
+                  component="button"
+                  type="button"
+                  onClick={() => navigate('/login')}
+                  sx={{
+                    color: '#3b82f6',
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
+                    '&:hover': {
+                      textDecoration: 'underline',
+                    },
+                  }}
+                >
+                  Already have an account? Sign in
+                </Link>
+              </Stack>
+            </Box>
+          </Paper>
+
+          {/* Bottom Text */}
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: 'center',
+              color: '#64748b',
+              mt: 6,
+              px: 4,
+            }}
+          >
+            Heavy Metal Pollution Index Platform • For CGWB Scientists and Environmental Policymakers
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 

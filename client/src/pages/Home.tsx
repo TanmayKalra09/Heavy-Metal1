@@ -256,268 +256,373 @@ const Home: React.FC = () => {
       </Box>
 
       {/* Hero Section */}
-      <Box sx={{ bgcolor: 'rgb(240, 248, 255)', py: 12 }}>
-  <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-    <Grid container spacing={6} alignItems="center" sx={{ minHeight: '80vh' }}>
-      
-      {/* Left Section */}
-      <Grid item xs={12} lg={6}>
-        <Box
-          sx={{
-            animation: 'fadeInUp 1s ease-out',
-            '@keyframes fadeInUp': {
-              '0%': { opacity: 0, transform: 'translateY(40px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' },
-            },
-          }}
-        >
-          {/* Badge */}
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              px: 3,
-              py: 1,
-              mb: 4,
-              borderRadius: '50px',
-              background: 'rgba(59, 130, 246, 0.15)',
-              border: '1px solid rgba(59, 130, 246, 0.3)',
-              backdropFilter: 'blur(8px)',
-            }}
-          >
+     <Box
+      sx={{
+        minHeight: '100vh',
+         bgcolor: 'rgb(240, 248, 255)',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `
+            radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 50%)
+          `,
+          pointerEvents: 'none',
+        },
+      }}
+    >
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8, ml:10 }}>
+        <Grid container spacing={8} alignItems="center" sx={{ minHeight: '80vh' }}>
+          
+          {/* Left Section - Content */}
+          <Grid item xs={12} lg={6}>
             <Box
               sx={{
-                width: 10,
-                height: 10,
-                borderRadius: '50%',
-                background: 'linear-gradient(45deg, #3B82F6, #6366F1)',
-                mr: 2,
-                animation: 'glow 2s ease-in-out infinite',
-                '@keyframes glow': {
-                  '0%, 100%': { boxShadow: '0 0 5px rgba(59, 130, 246, 0.5)' },
-                  '50%': { boxShadow: '0 0 15px rgba(59, 130, 246, 0.8)' },
-                },
-              }}
-            />
-            <Typography variant="body2" sx={{ fontWeight: 500, fontSize: '1rem', color: 'rgb(30, 41, 59)' }}>
-              AI-Powered Analysis
-            </Typography>
-          </Box>
-
-          {/* Main Heading */}
-          <Typography
-  variant="h1"
-  sx={{
-    fontSize: { xs: '3rem', md: '4.5rem', lg: '5.5rem' },
-    fontWeight: 800,
-    mb: 3,
-    lineHeight: 1.1,
-    letterSpacing: '-0.03em',
-    background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%)',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-  }}
->
-  Heavy Metal
-  <Typography
-    component="span"
-    sx={{
-      display: 'block',
-      fontSize: { xs: '1.5rem', md: '2rem', lg: '2.5rem' },
-      fontWeight: 400,
-      mt: 1,
-      background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)',
-      backgroundClip: 'text',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-    }}
-  >
-    Pollution Index
-  </Typography>
-</Typography>
-
-          {/* Subtitle */}
-          <Typography
-            variant="h5"
-            sx={{
-              fontSize: { xs: '1.25rem', md: '1.5rem' },
-              fontWeight: 300,
-              mb: 6,
-              color: 'rgba(30, 41, 59, 0.7)',
-              lineHeight: 1.6,
-              maxWidth: '500px',
-            }}
-          >
-            Transform water quality monitoring with our advanced ML platform designed for CGWB scientists and environmental experts.
-          </Typography>
-
-          {/* CTA Buttons */}
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ mb: 8 }}>
-            <Button
-              variant="contained"
-              size="large"
-              onClick={() => navigate('/register')}
-              endIcon={<ArrowForward />}
-              sx={{
-                background: 'linear-gradient(135deg, #3B82F6 0%, #6366F1 100%)',
-                color: 'white',
-                px: 8,
-                py: 2.5,
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                borderRadius: '50px',
-                textTransform: 'none',
-                boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #2563EB 0%, #4F46E5 100%)',
-                  transform: 'translateY(-3px)',
-                  boxShadow: '0 25px 50px rgba(59, 130, 246, 0.4)',
-                },
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            >
-              Start Analysis
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              onClick={() => navigate('/login')}
-              sx={{
-                borderColor: 'rgba(59, 130, 246, 0.3)',
-                color: 'rgb(30, 41, 59)',
-                px: 8,
-                py: 2.5,
-                fontSize: '1.1rem',
-                fontWeight: 500,
-                borderRadius: '50px',
-                textTransform: 'none',
-                borderWidth: 1.5,
-                backdropFilter: 'blur(8px)',
-                '&:hover': {
-                  borderColor: 'rgba(59, 130, 246, 0.6)',
-                  bgcolor: 'rgba(59, 130, 246, 0.05)',
-                  transform: 'translateY(-3px)',
-                },
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            >
-              Sign In
-            </Button>
-          </Stack>
-
-          {/* Trust Indicators */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CheckCircle sx={{ color: '#10B981', fontSize: 20 }} />
-              <Typography variant="body2" sx={{ color: 'rgba(30, 41, 59, 0.7)' }}>
-                99.9% Accuracy
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CheckCircle sx={{ color: '#10B981', fontSize: 20 }} />
-              <Typography variant="body2" sx={{ color: 'rgba(30, 41, 59, 0.7)' }}>
-                Real-time Results
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CheckCircle sx={{ color: '#10B981', fontSize: 20 }} />
-              <Typography variant="body2" sx={{ color: 'rgba(30, 41, 59, 0.7)' }}>
-                Enterprise Security
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      </Grid>
-
-      {/* Right Section */}
-      <Grid item xs={12} lg={6}>
-        <Box
-          sx={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: { xs: '400px', md: '600px' },
-            animation: 'fadeInRight 1s ease-out 0.3s both',
-            '@keyframes fadeInRight': {
-              '0%': { opacity: 0, transform: 'translateX(50px)' },
-              '100%': { opacity: 1, transform: 'translateX(0)' },
-            },
-          }}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              width: { xs: '300px', md: '450px' },
-              height: { xs: '300px', md: '450px' },
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Inner Core */}
-            <Box
-              sx={{
-                position: 'relative',
-                width: '60%',
-                height: '60%',
-                borderRadius: '50%',
-                background: 'rgba(59, 130, 246, 0.15)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(59, 130, 246, 0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 25px 50px rgba(59, 130, 246, 0.2)',
-                animation: 'float 6s ease-in-out infinite',
-                '@keyframes float': {
-                  '0%, 100%': { transform: 'translateY(0px)' },
-                  '50%': { transform: 'translateY(-20px)' },
+                maxWidth: '600px',
+                animation: 'slideInLeft 0.8s ease-out',
+                '@keyframes slideInLeft': {
+                  '0%': { opacity: 0, transform: 'translateX(-40px)' },
+                  '100%': { opacity: 1, transform: 'translateX(0)' },
                 },
               }}
             >
-              <Science
-                sx={{
-                  fontSize: { xs: 80, md: 120 },
-                  color: '#3B82F6',
-                  filter: 'drop-shadow(0 10px 20px rgba(59, 130, 246, 0.3))',
-                }}
-              />
-            </Box>
-
-            {/* Floating Data Points */}
-            {[
-              { top: '10%', left: '20%', delay: '0s', color: '#3B82F6' },
-              { top: '20%', right: '15%', delay: '1s', color: '#6366F1' },
-              { bottom: '25%', left: '10%', delay: '2s', color: '#8B5CF6' },
-              { bottom: '15%', right: '20%', delay: '3s', color: '#06B6D4' },
-            ].map((point, index) => (
+              {/* Status Badge */}
               <Box
-                key={index}
                 sx={{
-                  position: 'absolute',
-                  width: { xs: '12px', md: '16px' },
-                  height: { xs: '12px', md: '16px' },
-                  borderRadius: '50%',
-                  background: point.color,
-                  boxShadow: `0 0 20px ${point.color}80`,
-                  animation: `pulse 3s ease-in-out infinite ${point.delay}`,
-                  ...point,
-                  '@keyframes pulse': {
-                    '0%, 100%': { transform: 'scale(1)', opacity: 0.6 },
-                    '50%': { transform: 'scale(1.5)', opacity: 1 },
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  px: 4,
+                  py: 1.5,
+                  mb: 5,
+                  borderRadius: '50px',
+                  backgroundColor: 'white',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    backgroundColor: '#10b981',
+                    mr: 2,
+                    animation: 'pulse 2s infinite',
+                    '@keyframes pulse': {
+                      '0%, 100%': { opacity: 1 },
+                      '50%': { opacity: 0.5 },
+                    },
+                  }}
+                />
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    color: '#374151',
+                    letterSpacing: '0.025em',
+                  }}
+                >
+                  AI-Powered Environmental Monitoring
+                </Typography>
+              </Box>
+
+              {/* Main Heading */}
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem', lg: '5rem' },
+                  fontWeight: 800,
+                  mb: 3,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.02em',
+                  color: '#0f172a',
+                }}
+              >
+                Heavy Metal
+                <Box
+                  component="span"
+                  sx={{
+                    display: 'block',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontSize: { xs: '2rem', sm: '2.75rem', md: '3.5rem', lg: '4rem' },
+                    fontWeight: 700,
+                  }}
+                >
+                  Pollution Index
+                </Box>
+              </Typography>
+
+              {/* Subtitle */}
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: { xs: '1.125rem', md: '1.25rem' },
+                  fontWeight: 400,
+                  mb: 6,
+                  color: '#64748b',
+                  lineHeight: 1.7,
+                  maxWidth: '540px',
+                }}
+              >
+                Advanced machine learning platform for comprehensive water quality analysis. 
+                Empowering CGWB scientists and environmental professionals with real-time insights 
+                and predictive analytics.
+              </Typography>
+
+              {/* CTA Buttons */}
+              <Stack 
+                direction={{ xs: 'column', sm: 'row' }} 
+                spacing={3} 
+                sx={{ mb: 8 }}
+              >
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => navigate('/register')}
+                  endIcon={<ArrowForward />}
+                  sx={{
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    px: 6,
+                    py: 2.5,
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    borderRadius: '12px',
+                    textTransform: 'none',
+                    boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.39)',
+                    '&:hover': {
+                      backgroundColor: '#2563eb',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 25px 0 rgba(59, 130, 246, 0.5)',
+                    },
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  Get Started
+                </Button>
+                
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => navigate('/login')}
+                  sx={{
+                    borderColor: '#d1d5db',
+                    color: '#374151',
+                    backgroundColor: 'white',
+                    px: 6,
+                    py: 2.5,
+                    fontSize: '1.1rem',
+                    fontWeight: 500,
+                    borderRadius: '12px',
+                    textTransform: 'none',
+                    borderWidth: 1.5,
+                    '&:hover': {
+                      borderColor: '#3b82f6',
+                      backgroundColor: '#f8fafc',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                    },
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  Sign In
+                </Button>
+              </Stack>
+
+              {/* Feature Highlights */}
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {[
+                  { icon: <TrendingUp />, text: '99.9% Accuracy' },
+                  { icon: <Speed />, text: 'Real-time Analysis' },
+                  { icon: <Security />, text: 'Enterprise Grade' },
+                ].map((feature, index) => (
+                  <Box 
+                    key={index}
+                    sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1.5,
+                      px: 3,
+                      py: 1.5,
+                      backgroundColor: 'white',
+                      borderRadius: '8px',
+                      border: '1px solid #f1f5f9',
+                      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        color: '#3b82f6',
+                        fontSize: 18,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {feature.icon}
+                    </Box>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: '#64748b',
+                        fontWeight: 500,
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      {feature.text}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          </Grid>
+
+          {/* Right Section - Visual */}
+          <Grid item xs={12} lg={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: { xs: '400px', md: '600px' },
+                position: 'relative',
+                animation: 'slideInRight 0.8s ease-out 0.3s both',
+                '@keyframes slideInRight': {
+                  '0%': { opacity: 0, transform: 'translateX(40px)' },
+                  '100%': { opacity: 1, transform: 'translateX(0)' },
+                },
+              }}
+            >
+              {/* Main Dashboard Card */}
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: { xs: '300px', md: '400px', lg: '450px' },
+                  height: { xs: '350px', md: '450px', lg: '650px' },
+                  backgroundColor: 'white',
+                  borderRadius: '24px',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                  border: '1px solid #f1f5f9',
+                  padding: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  animation: 'float 6s ease-in-out infinite',
+                  '@keyframes float': {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-10px)' },
                   },
                 }}
-              />
-            ))}
-          </Box>
-        </Box>
-      </Grid>
+              >
+                {/* Header */}
+                <Box sx={{ mb: 4 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <Box
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        borderRadius: '12px',
+                        backgroundColor: '#eff6ff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Analytics sx={{ color: '#3b82f6', fontSize: 24 }} />
+                    </Box>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, color: '#0f172a' }}>
+                        HMPI Dashboard
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: '#64748b' }}>
+                        Real-time monitoring
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
 
-    </Grid>
-  </Container>
-</Box>
+                {/* Stats Cards */}
+                <Stack spacing={3} sx={{ flex: 1 }}>
+                  {[
+                    { label: 'Water Quality Index', value: '8.7', trend: '+2.3%', color: '#10b981' },
+                    { label: 'Heavy Metal Concentration', value: '0.03', trend: '-5.1%', color: '#f59e0b' },
+                    { label: 'Risk Assessment', value: 'Low', trend: 'Stable', color: '#3b82f6' },
+                  ].map((stat, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        p: 3,
+                        backgroundColor: '#f8fafc',
+                        borderRadius: '12px',
+                        border: '1px solid #f1f5f9',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="body2" sx={{ color: '#64748b', mb: 1 }}>
+                          {stat.label}
+                        </Typography>
+                        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a' }}>
+                          {stat.value}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          px: 2,
+                          py: 1,
+                          backgroundColor: stat.color,
+                          color: 'white',
+                          borderRadius: '8px',
+                          fontSize: '0.75rem',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {stat.trend}
+                      </Box>
+                    </Box>
+                  ))}
+                </Stack>
+
+                {/* Status Indicator */}
+                <Box
+                  sx={{
+                    mt: 4,
+                    p: 2,
+                    backgroundColor: '#ecfdf5',
+                    borderRadius: '8px',
+                    border: '1px solid #bbf7d0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <CheckCircle sx={{ color: '#10b981', fontSize: 20 }} />
+                  <Typography variant="body2" sx={{ color: '#065f46', fontWeight: 500 }}>
+                    All systems operational
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Floating Elements */}
+              {/*  */}
+            </Box>
+          </Grid>
+
+        </Grid>
+      </Container>
+    </Box>
 
       {/* Stats Section */}
       <Container ref={statsRef} maxWidth="lg" sx={{ py: 5, mt:1 }}>
