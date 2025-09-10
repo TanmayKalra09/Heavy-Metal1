@@ -264,6 +264,7 @@ const Home: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
+        mt:3,
         '&::before': {
           content: '""',
           position: 'absolute',
