@@ -15,6 +15,13 @@ interface User {
   name: string;
 }
 
+// 1. Define a default "guest" user object
+const guestUser: User = {
+  id: '0',
+  name: 'Guest',
+  email: 'guest@example.com',
+};
+
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +31,6 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       // Validate token and get user info
-      // This would typically make an API call to verify the token
       const userData = localStorage.getItem('user');
       if (userData) {
         setUser(JSON.parse(userData));
@@ -70,25 +76,19 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              user ? (
-                <Container maxWidth="xl" sx={{ py: 3 }}>
-                  <Dashboard user={user} />
-                </Container>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              // 2. Pass the real user if they exist, otherwise pass the guest user.
+              <Container maxWidth="xl" sx={{ py: 3 }}>
+                <Dashboard user={user || guestUser} />
+              </Container>
             }
           />
           <Route
             path="/upload"
             element={
-              user ? (
-                <Container maxWidth="xl" sx={{ py: 3 }}>
-                  <Upload user={user} />
-                </Container>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              // 3. Do the same for the Upload component.
+              <Container maxWidth="xl" sx={{ py: 3 }}>
+                <Upload user={user || guestUser} />
+              </Container>
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
