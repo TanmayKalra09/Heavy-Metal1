@@ -127,6 +127,7 @@ const Register: React.FC<RegisterProps> = ({ onLogin }) => {
         display: 'flex',
         backgroundColor: '#f8fafc',
         position: 'relative',
+        mt:7
       }}
     >
       {/* Left Panel - Branding */}

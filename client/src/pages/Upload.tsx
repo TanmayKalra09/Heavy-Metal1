@@ -17,8 +17,10 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
   Chip,
+  LinearProgress,
+  Fade,
+  Slide,
 } from '@mui/material';
 import {
   CloudUpload,
@@ -26,18 +28,118 @@ import {
   Error,
   Info,
   GetApp,
-  Visibility,
   Assessment,
+  WaterDrop,
+  Science,
+  LocationOn,
+  CalendarToday,
+  TrendingUp,
+  FileUpload as FileUploadIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import FileUpload from '../components/FileUpload';
-import { UploadResponse } from '../api/predict';
+
+// Define the props interface for the mock component
+interface FileUploadProps {
+  onUploadComplete: (response: UploadResponse) => void;
+  onUploadError: (message: string) => void;
+  acceptedFileTypes: string[];
+  maxFileSize: number;
+  multiple: boolean;
+}
+
+// Mock FileUpload component with proper TypeScript props
+const FileUpload: React.FC<FileUploadProps> = ({
+  onUploadComplete,
+  onUploadError,
+  acceptedFileTypes,
+  maxFileSize,
+  multiple,
+}) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = () => {
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      onUploadComplete({
+        samplesCount: 150,
+        validSamples: 143,
+        invalidSamples: 7,
+        fileName: 'water_quality_data.csv',
+      });
+    }, 2000);
+  };
+
+  return (
+    <Box
+      sx={{
+        border: '2px dashed',
+        borderColor: 'primary.light',
+        borderRadius: 3,
+        p: 4,
+        textAlign: 'center',
+        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05))',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          borderColor: 'primary.main',
+          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(147, 197, 253, 0.08))',
+          transform: 'translateY(-2px)',
+          boxShadow: '0 8px 25px rgba(59, 130, 246, 0.15)',
+        },
+      }}
+    >
+      {isUploading ? (
+        <Box>
+          <CloudUpload sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
+          <Typography variant="h6" color="primary" gutterBottom>
+            Processing your data...
+          </Typography>
+          <LinearProgress sx={{ mt: 2, borderRadius: 2 }} />
+        </Box>
+      ) : (
+        <Box>
+          <FileUploadIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
+          <Typography variant="h6" gutterBottom>
+            Drop your CSV file here or click to browse
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Supports CSV files up to 50MB
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleFileUpload}
+            sx={{
+              borderRadius: 2,
+              px: 4,
+              py: 1.5,
+              background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #1D4ED8, #1E40AF)',
+                transform: 'translateY(-1px)',
+                boxShadow: '0 6px 20px rgba(59, 130, 246, 0.3)',
+              },
+            }}
+          >
+            Select File
+          </Button>
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 interface User {
   id: string;
   name: string;
   email: string;
+}
+
+interface UploadResponse {
+  samplesCount: number;
+  validSamples: number;
+  invalidSamples: number;
+  fileName: string;
 }
 
 interface UploadProps {
@@ -54,37 +156,40 @@ const Upload: React.FC<UploadProps> = ({ user }) => {
     {
       label: 'Prepare Your Data',
       description: 'Ensure your CSV file contains the required columns',
+      icon: <Science />,
     },
     {
       label: 'Upload File',
       description: 'Select and upload your water quality data file',
+      icon: <CloudUpload />,
     },
     {
       label: 'Review Results',
       description: 'Check the upload results and proceed to analysis',
+      icon: <Assessment />,
     },
   ];
 
   const requiredColumns = [
-    'latitude',
-    'longitude',
-    'date',
-    'arsenic',
-    'cadmium',
-    'chromium',
-    'lead',
-    'mercury',
-    'zinc',
-    'copper',
-    'iron',
-    'manganese',
-    'nickel',
+    { name: 'latitude', icon: <LocationOn />, color: '#EF4444' },
+    { name: 'longitude', icon: <LocationOn />, color: '#EF4444' },
+    { name: 'date', icon: <CalendarToday />, color: '#10B981' },
+    { name: 'arsenic', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'cadmium', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'chromium', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'lead', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'mercury', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'zinc', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'copper', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'iron', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'manganese', icon: <WaterDrop />, color: '#3B82F6' },
+    { name: 'nickel', icon: <WaterDrop />, color: '#3B82F6' },
   ];
 
   const sampleData = [
     {
       latitude: 28.6139,
-      longitude: 77.2090,
+      longitude: 77.209,
       date: '2024-01-15',
       arsenic: 0.05,
       cadmium: 0.003,
@@ -100,7 +205,7 @@ const Upload: React.FC<UploadProps> = ({ user }) => {
   ];
 
   const handleUploadComplete = (response: UploadResponse) => {
-    setUploadResults(prev => [...prev, response]);
+    setUploadResults((prev) => [...prev, response]);
     setActiveStep(2);
     toast.success(`Successfully processed ${response.validSamples} samples!`);
   };
@@ -111,11 +216,11 @@ const Upload: React.FC<UploadProps> = ({ user }) => {
   };
 
   const handleNext = () => {
-    setActiveStep(prev => prev + 1);
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
-    setActiveStep(prev => prev - 1);
+    setActiveStep((prev) => prev - 1);
   };
 
   const handleReset = () => {
@@ -126,7 +231,7 @@ const Upload: React.FC<UploadProps> = ({ user }) => {
 
   const downloadSampleCSV = () => {
     const csvContent = [
-      requiredColumns.join(','),
+      requiredColumns.map((col) => col.name).join(','),
       Object.values(sampleData[0]).join(','),
     ].join('\n');
 
@@ -142,283 +247,579 @@ const Upload: React.FC<UploadProps> = ({ user }) => {
   };
 
   const getTotalResults = () => {
-    return uploadResults.reduce((acc, result) => ({
-      total: acc.total + result.samplesCount,
-      valid: acc.valid + result.validSamples,
-      invalid: acc.invalid + result.invalidSamples,
-    }), { total: 0, valid: 0, invalid: 0 });
+    return uploadResults.reduce(
+      (acc, result) => ({
+        total: acc.total + result.samplesCount,
+        valid: acc.valid + result.validSamples,
+        invalid: acc.invalid + result.invalidSamples,
+      }),
+      { total: 0, valid: 0, invalid: 0 },
+    );
   };
 
   const totals = getTotalResults();
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Upload Water Quality Data
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Upload your water quality datasets for heavy metal pollution analysis
-        </Typography>
-      </Box>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        background: 'rgb(248, 250, 252)',
+        pt: 10,
+        pb: 6,
+      }}
+    >
+      <Container maxWidth="lg">
+        <Fade in timeout={800}>
+          <Box sx={{ mb: 6, textAlign: 'center' }}>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 80,
+                height: 80,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                mb: 3,
+                boxShadow: '0 10px 30px rgba(59, 130, 246, 0.3)',
+              }}
+            >
+              <WaterDrop sx={{ fontSize: 40, color: 'white' }} />
+            </Box>
+            <Typography
+              variant="h3"
+              component="h1"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                background: 'linear-gradient(135deg, #1E293B, #475569)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                mb: 2,
+              }}
+            >
+              Upload Water Quality Data
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto', fontWeight: 400 }}>
+              Upload your water quality datasets for comprehensive heavy metal pollution analysis and insights
+            </Typography>
+          </Box>
+        </Fade>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
-          {error}
-        </Alert>
-      )}
+        {error && (
+          <Slide direction="down" in mountOnEnter unmountOnExit>
+            <Alert
+              severity="error"
+              sx={{
+                mb: 4,
+                borderRadius: 3,
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.15)',
+              }}
+              onClose={() => setError(null)}
+            >
+              {error}
+            </Alert>
+          </Slide>
+        )}
 
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3 }}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel>{step.label}</StepLabel>
-                  <StepContent>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                      {step.description}
-                    </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} lg={8}>
+            <Card
+              sx={{
+                borderRadius: 4,
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)',
+                border: '1px solid rgba(59, 130, 246, 0.1)',
+                overflow: 'hidden',
+              }}
+            >
+              <CardContent sx={{ p: 4 }}>
+                <Stepper
+                  activeStep={activeStep}
+                  orientation="vertical"
+                  sx={{
+                    '& .MuiStepLabel-root': {
+                      py: 1,
+                    },
+                    '& .MuiStepIcon-root': {
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
+                      '&.Mui-active': {
+                        background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                      },
+                      '&.Mui-completed': {
+                        background: 'linear-gradient(135deg, #10B981, #059669)',
+                      },
+                    },
+                  }}
+                >
+                  {steps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel>
+                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                          {step.label}
+                        </Typography>
+                      </StepLabel>
+                      <StepContent>
+                        <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: '1.1rem' }}>
+                          {step.description}
+                        </Typography>
 
-                    {index === 0 && (
-                      <Box>
-                        <Alert severity="info" sx={{ mb: 2 }}>
-                          <Typography variant="subtitle2" gutterBottom>
-                            Required CSV Format
-                          </Typography>
-                          <Typography variant="body2">
-                            Your CSV file must contain the following columns with metal concentrations in mg/L:
-                          </Typography>
-                        </Alert>
-
-                        <Card variant="outlined" sx={{ mb: 2 }}>
-                          <CardContent>
-                            <Typography variant="subtitle2" gutterBottom>
-                              Required Columns:
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                              {requiredColumns.map((column) => (
-                                <Chip key={column} label={column} size="small" variant="outlined" />
-                              ))}
-                            </Box>
-                          </CardContent>
-                        </Card>
-
-                        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                          <Button
-                            variant="outlined"
-                            startIcon={<GetApp />}
-                            onClick={downloadSampleCSV}
-                          >
-                            Download Sample CSV
-                          </Button>
-                        </Box>
-
-                        <Box sx={{ mt: 2 }}>
-                          <Button variant="contained" onClick={handleNext}>
-                            Continue
-                          </Button>
-                        </Box>
-                      </Box>
-                    )}
-
-                    {index === 1 && (
-                      <Box>
-                        <FileUpload
-                          onUploadComplete={handleUploadComplete}
-                          onUploadError={handleUploadError}
-                          acceptedFileTypes={['.csv']}
-                          maxFileSize={50 * 1024 * 1024} // 50MB
-                          multiple={true}
-                        />
-
-                        <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
-                          <Button onClick={handleBack}>
-                            Back
-                          </Button>
-                          {uploadResults.length > 0 && (
-                            <Button variant="contained" onClick={handleNext}>
-                              Review Results
-                            </Button>
-                          )}
-                        </Box>
-                      </Box>
-                    )}
-
-                    {index === 2 && (
-                      <Box>
-                        {uploadResults.length > 0 ? (
-                          <Box>
-                            <Alert severity="success" sx={{ mb: 2 }}>
-                              <Typography variant="subtitle2">
-                                Upload Completed Successfully!
-                              </Typography>
-                              <Typography variant="body2">
-                                {totals.valid} valid samples processed from {totals.total} total samples
-                              </Typography>
-                            </Alert>
-
-                            <Card variant="outlined" sx={{ mb: 2 }}>
-                              <CardContent>
-                                <Typography variant="h6" gutterBottom>
-                                  Upload Summary
+                        {index === 0 && (
+                          <Fade in timeout={600}>
+                            <Box>
+                              <Alert
+                                severity="info"
+                                sx={{
+                                  mb: 3,
+                                  borderRadius: 3,
+                                  background:
+                                    'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05))',
+                                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                                }}
+                                icon={<Info sx={{ color: '#3B82F6' }} />}
+                              >
+                                <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+                                  Required CSV Format
                                 </Typography>
-                                <Grid container spacing={2}>
-                                  <Grid item xs={4}>
-                                    <Box sx={{ textAlign: 'center' }}>
-                                      <Typography variant="h4" color="primary">
-                                        {totals.total}
-                                      </Typography>
-                                      <Typography variant="body2" color="text.secondary">
-                                        Total Samples
-                                      </Typography>
-                                    </Box>
-                                  </Grid>
-                                  <Grid item xs={4}>
-                                    <Box sx={{ textAlign: 'center' }}>
-                                      <Typography variant="h4" color="success.main">
-                                        {totals.valid}
-                                      </Typography>
-                                      <Typography variant="body2" color="text.secondary">
-                                        Valid Samples
-                                      </Typography>
-                                    </Box>
-                                  </Grid>
-                                  <Grid item xs={4}>
-                                    <Box sx={{ textAlign: 'center' }}>
-                                      <Typography variant="h4" color="error.main">
-                                        {totals.invalid}
-                                      </Typography>
-                                      <Typography variant="body2" color="text.secondary">
-                                        Invalid Samples
-                                      </Typography>
-                                    </Box>
-                                  </Grid>
-                                </Grid>
-                              </CardContent>
-                            </Card>
+                                <Typography variant="body2">
+                                  Your CSV file must contain the following columns with metal concentrations in mg/L:
+                                </Typography>
+                              </Alert>
 
-                            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                              <Button
-                                variant="contained"
-                                startIcon={<Assessment />}
-                                onClick={() => navigate('/dashboard')}
-                              >
-                                View Analysis
-                              </Button>
-                              <Button
+                              <Card
                                 variant="outlined"
-                                onClick={handleReset}
+                                sx={{
+                                  mb: 3,
+                                  borderRadius: 3,
+                                  background:
+                                    'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.8))',
+                                  border: '1px solid rgba(59, 130, 246, 0.1)',
+                                }}
                               >
-                                Upload More Data
-                              </Button>
+                                <CardContent sx={{ p: 3 }}>
+                                  <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
+                                    Required Columns:
+                                  </Typography>
+                                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+                                    {requiredColumns.map((column) => (
+                                      <Chip
+                                        key={column.name}
+                                        label={column.name}
+                                        size="medium"
+                                        icon={React.cloneElement(column.icon, { sx: { fontSize: 18 } })}
+                                        sx={{
+                                          borderRadius: 2,
+                                          backgroundColor: `${column.color}15`,
+                                          color: column.color,
+                                          border: `1px solid ${column.color}30`,
+                                          fontWeight: 500,
+                                          '&:hover': {
+                                            backgroundColor: `${column.color}25`,
+                                            transform: 'translateY(-1px)',
+                                          },
+                                        }}
+                                      />
+                                    ))}
+                                  </Box>
+                                </CardContent>
+                              </Card>
+
+                              <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+                                <Button
+                                  variant="outlined"
+                                  startIcon={<GetApp />}
+                                  onClick={downloadSampleCSV}
+                                  sx={{
+                                    borderRadius: 2,
+                                    px: 3,
+                                    py: 1.5,
+                                    borderColor: 'primary.main',
+                                    '&:hover': {
+                                      background:
+                                        'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05))',
+                                      borderColor: 'primary.dark',
+                                      transform: 'translateY(-1px)',
+                                    },
+                                  }}
+                                >
+                                  Download Sample CSV
+                                </Button>
+                              </Box>
+
+                              <Box sx={{ mt: 3 }}>
+                                <Button
+                                  variant="contained"
+                                  onClick={handleNext}
+                                  size="large"
+                                  sx={{
+                                    borderRadius: 2,
+                                    px: 4,
+                                    py: 1.5,
+                                    background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                                    '&:hover': {
+                                      background: 'linear-gradient(135deg, #1D4ED8, #1E40AF)',
+                                      transform: 'translateY(-1px)',
+                                      boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
+                                    },
+                                  }}
+                                >
+                                  Continue to Upload
+                                </Button>
+                              </Box>
                             </Box>
-                          </Box>
-                        ) : (
-                          <Alert severity="warning">
-                            No successful uploads to review. Please go back and upload your data.
-                          </Alert>
+                          </Fade>
                         )}
 
-                        <Box sx={{ mt: 2 }}>
-                          <Button onClick={handleBack}>
-                            Back
-                          </Button>
-                        </Box>
-                      </Box>
-                    )}
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-          </Paper>
-        </Grid>
+                        {index === 1 && (
+                          <Fade in timeout={600}>
+                            <Box>
+                              <FileUpload
+                                onUploadComplete={handleUploadComplete}
+                                onUploadError={handleUploadError}
+                                acceptedFileTypes={['.csv']}
+                                maxFileSize={50 * 1024 * 1024}
+                                multiple={true}
+                              />
 
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, mb: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Data Requirements
-            </Typography>
-            <List dense>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckCircle color="success" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="CSV Format"
-                  secondary="Comma-separated values file"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckCircle color="success" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Geographic Coordinates"
-                  secondary="Latitude and longitude in decimal degrees"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckCircle color="success" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Metal Concentrations"
-                  secondary="Values in mg/L (milligrams per liter)"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckCircle color="success" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Date Information"
-                  secondary="Sample collection date (YYYY-MM-DD)"
-                />
-              </ListItem>
-            </List>
-          </Paper>
+                              <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
+                                <Button
+                                  onClick={handleBack}
+                                  sx={{
+                                    borderRadius: 2,
+                                    px: 3,
+                                    py: 1.5,
+                                  }}
+                                >
+                                  Back
+                                </Button>
+                                {uploadResults.length > 0 && (
+                                  <Button
+                                    variant="contained"
+                                    onClick={handleNext}
+                                    sx={{
+                                      borderRadius: 2,
+                                      px: 4,
+                                      py: 1.5,
+                                      background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                                      '&:hover': {
+                                        background: 'linear-gradient(135deg, #1D4ED8, #1E40AF)',
+                                        transform: 'translateY(-1px)',
+                                        boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
+                                      },
+                                    }}
+                                  >
+                                    Review Results
+                                  </Button>
+                                )}
+                              </Box>
+                            </Box>
+                          </Fade>
+                        )}
 
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Need Help?
-            </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
-              If you're having trouble with the upload process or data format, here are some resources:
-            </Typography>
-            <List dense>
-              <ListItem>
-                <ListItemIcon>
-                  <Info color="primary" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sample Data"
-                  secondary="Download our sample CSV file as a template"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <Info color="primary" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Data Validation"
-                  secondary="Check for missing values and correct formats"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <Info color="primary" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="File Size Limit"
-                  secondary="Maximum file size is 50MB"
-                />
-              </ListItem>
-            </List>
-          </Paper>
+                        {index === 2 && (
+                          <Fade in timeout={600}>
+                            <Box>
+                              {uploadResults.length > 0 ? (
+                                <Box>
+                                  <Alert
+                                    severity="success"
+                                    sx={{
+                                      mb: 3,
+                                      borderRadius: 3,
+                                      background:
+                                        'linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05))',
+                                      border: '1px solid rgba(16, 185, 129, 0.2)',
+                                    }}
+                                  >
+                                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                      Upload Completed Successfully!
+                                    </Typography>
+                                    <Typography variant="body2">
+                                      {totals.valid} valid samples processed from {totals.total} total samples
+                                    </Typography>
+                                  </Alert>
+
+                                  <Card
+                                    variant="outlined"
+                                    sx={{
+                                      mb: 3,
+                                      borderRadius: 3,
+                                      background:
+                                        'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.8))',
+                                      border: '1px solid rgba(59, 130, 246, 0.1)',
+                                    }}
+                                  >
+                                    <CardContent sx={{ p: 3 }}>
+                                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                                        <TrendingUp sx={{ mr: 2, color: 'primary.main' }} />
+                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                          Upload Summary
+                                        </Typography>
+                                      </Box>
+                                      <Grid container spacing={3}>
+                                        <Grid item xs={4}>
+                                          <Box
+                                            sx={{
+                                              textAlign: 'center',
+                                              p: 2,
+                                              borderRadius: 2,
+                                              background:
+                                                'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05))',
+                                            }}
+                                          >
+                                            <Typography
+                                              variant="h3"
+                                              sx={{
+                                                fontWeight: 700,
+                                                background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                                                backgroundClip: 'text',
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent',
+                                              }}
+                                            >
+                                              {totals.total}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                                              Total Samples
+                                            </Typography>
+                                          </Box>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                          <Box
+                                            sx={{
+                                              textAlign: 'center',
+                                              p: 2,
+                                              borderRadius: 2,
+                                              background:
+                                                'linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05))',
+                                            }}
+                                          >
+                                            <Typography
+                                              variant="h3"
+                                              sx={{
+                                                fontWeight: 700,
+                                                color: 'success.main',
+                                              }}
+                                            >
+                                              {totals.valid}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                                              Valid Samples
+                                            </Typography>
+                                          </Box>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                          <Box
+                                            sx={{
+                                              textAlign: 'center',
+                                              p: 2,
+                                              borderRadius: 2,
+                                              background:
+                                                'linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(220, 38, 38, 0.05))',
+                                            }}
+                                          >
+                                            <Typography
+                                              variant="h3"
+                                              sx={{
+                                                fontWeight: 700,
+                                                color: 'error.main',
+                                              }}
+                                            >
+                                              {totals.invalid}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                                              Invalid Samples
+                                            </Typography>
+                                          </Box>
+                                        </Grid>
+                                      </Grid>
+                                    </CardContent>
+                                  </Card>
+
+                                  <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                                    <Button
+                                      variant="contained"
+                                      startIcon={<Assessment />}
+                                      onClick={() => navigate('/dashboard')}
+                                      size="large"
+                                      sx={{
+                                        borderRadius: 2,
+                                        px: 4,
+                                        py: 1.5,
+                                        background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                                        '&:hover': {
+                                          background: 'linear-gradient(135deg, #1D4ED8, #1E40AF)',
+                                          transform: 'translateY(-1px)',
+                                          boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
+                                        },
+                                      }}
+                                    >
+                                      View Analysis Dashboard
+                                    </Button>
+                                    <Button
+                                      variant="outlined"
+                                      onClick={handleReset}
+                                      size="large"
+                                      sx={{
+                                        borderRadius: 2,
+                                        px: 4,
+                                        py: 1.5,
+                                        borderColor: 'primary.main',
+                                        '&:hover': {
+                                          background:
+                                            'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.05))',
+                                          borderColor: 'primary.dark',
+                                        },
+                                      }}
+                                    >
+                                      Upload More Data
+                                    </Button>
+                                  </Box>
+                                </Box>
+                              ) : (
+                                <Alert severity="warning" sx={{ borderRadius: 3 }}>
+                                  No successful uploads to review. Please go back and upload your data.
+                                </Alert>
+                              )}
+
+                              <Box sx={{ mt: 3 }}>
+                                <Button
+                                  onClick={handleBack}
+                                  sx={{
+                                    borderRadius: 2,
+                                    px: 3,
+                                    py: 1.5,
+                                  }}
+                                >
+                                  Back
+                                </Button>
+                              </Box>
+                            </Box>
+                          </Fade>
+                        )}
+                      </StepContent>
+                    </Step>
+                  ))}
+                </Stepper>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} lg={4}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Card
+                  sx={{
+                    borderRadius: 4,
+                    background: '#FFFFFF',
+                    border: '1px solid rgba(59, 130, 246, 0.1)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                  }}
+                >
+                  <CardContent sx={{ p: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                      <CheckCircle sx={{ mr: 2, color: 'success.main' }} />
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        Data Requirements
+                      </Typography>
+                    </Box>
+                    <List dense>
+                      {[
+                        { primary: 'CSV Format', secondary: 'Comma-separated values file', icon: <CheckCircle color="success" /> },
+                        {
+                          primary: 'Geographic Coordinates',
+                          secondary: 'Latitude and longitude in decimal degrees',
+                          icon: <LocationOn color="primary" />,
+                        },
+                        {
+                          primary: 'Metal Concentrations',
+                          secondary: 'Values in mg/L (milligrams per liter)',
+                          icon: <WaterDrop color="primary" />,
+                        },
+                        {
+                          primary: 'Date Information',
+                          secondary: 'Sample collection date (YYYY-MM-DD)',
+                          icon: <CalendarToday color="primary" />,
+                        },
+                      ].map((item, index) => (
+                        <ListItem
+                          key={index}
+                          sx={{
+                            borderRadius: 2,
+                            mb: 1,
+                            '&:hover': {
+                              background: 'rgba(59, 130, 246, 0.05)',
+                            },
+                          }}
+                        >
+                          <ListItemIcon>{item.icon}</ListItemIcon>
+                          <ListItemText
+                            primary={<Typography variant="body1" sx={{ fontWeight: 500 }}>{item.primary}</Typography>}
+                            secondary={item.secondary}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Card
+                  sx={{
+                    borderRadius: 4,
+                    background: '#ffffff',
+                    border: '1px solid rgba(16, 185, 129, 0.1)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+                  }}
+                >
+                  <CardContent sx={{ p: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                      <Info sx={{ mr: 2, color: 'primary.main' }} />
+                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                        Need Help?
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary" paragraph sx={{ fontSize: '1rem' }}>
+                      If you're having trouble with the upload process or data format, here are some helpful resources:
+                    </Typography>
+                    <List dense>
+                      {[
+                        { primary: 'Sample Data', secondary: 'Download our sample CSV file as a template' },
+                        { primary: 'Data Validation', secondary: 'Check for missing values and correct formats' },
+                        { primary: 'File Size Limit', secondary: 'Maximum file size is 50MB' },
+                      ].map((item, index) => (
+                        <ListItem
+                          key={index}
+                          sx={{
+                            borderRadius: 2,
+                            mb: 1,
+                            '&:hover': {
+                              background: 'rgba(16, 185, 129, 0.05)',
+                            },
+                          }}
+                        >
+                          <ListItemIcon>
+                            <Info color="primary" />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={<Typography variant="body1" sx={{ fontWeight: 500 }}>{item.primary}</Typography>}
+                            secondary={item.secondary}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

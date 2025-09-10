@@ -105,6 +105,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         display: 'flex',
         backgroundColor: '#f8fafc',
         position: 'relative',
+        mt: 7
       }}
     >
       {/* Left Panel - Branding */}

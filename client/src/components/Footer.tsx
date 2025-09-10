@@ -10,334 +10,180 @@ import {
   Stack,
   useTheme,
   alpha,
+  InputBase,
+  Button,
 } from '@mui/material';
 import {
   Science,
-  Email,
-  Phone,
-  LocationOn,
   GitHub,
   LinkedIn,
   Twitter,
-  ArrowUpward,
+  ArrowForward,
 } from '@mui/icons-material';
 
-const Footer: React.FC = () => {
+const MinimalistFooter: React.FC = () => {
   const theme = useTheme();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const footerLinks = {
-    platform: [
-      { name: 'Dashboard', href: '/dashboard' },
-      { name: 'Upload Data', href: '/upload' },
-      { name: 'Documentation', href: '#' },
-      { name: 'API Reference', href: '#' },
-    ],
-    resources: [
-      { name: 'User Guide', href: '#' },
-      { name: 'Tutorials', href: '#' },
-      { name: 'Research Papers', href: '#' },
-      { name: 'Case Studies', href: '#' },
-    ],
-    support: [
-      { name: 'Help Center', href: '#' },
-      { name: 'Contact Support', href: '#' },
-      { name: 'System Status', href: '#' },
-      { name: 'Report Issues', href: '#' },
-    ],
-    legal: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Data Usage Policy', href: '#' },
-      { name: 'Compliance', href: '#' },
-    ],
-  };
+  const footerLinks = [
+    { name: 'Platform Status', href: '#' },
+    { name: 'Documentation', href: '#' },
+    { name: 'Support', href: '#' },
+    { name: 'Privacy Policy', href: '#' },
+    { name: 'Terms of Service', href: '#' },
+  ];
 
   return (
     <Box
       component="footer"
       sx={{
-        background: `linear-gradient(135deg, ${theme.palette.grey[900]} 0%, ${theme.palette.grey[800]} 100%)`,
-        color: 'white',
-        position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-        },
+        backgroundColor: '#121212', // A sophisticated near-black
+        color: theme.palette.grey[500],
+        borderTop: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
       }}
     >
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* Main Footer Content */}
+      <Container maxWidth="lg">
+        {/* Top Section: Brand and Newsletter */}
         <Box sx={{ py: 6 }}>
-          <Grid container spacing={4}>
-            {/* Brand Section */}
-            <Grid item xs={12} md={4}>
-              <Box sx={{ mb: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Box
-                    sx={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 2,
-                      background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      mr: 2,
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                    }}
-                  >
-                    <Science sx={{ color: 'white', fontSize: 28 }} />
-                  </Box>
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
-                      HMPI Platform
-                    </Typography>
-                    <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                      Heavy Metal Analysis
-                    </Typography>
-                  </Box>
+          <Grid container spacing={5} alignItems="center">
+            {/* Brand Info */}
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: '12px',
+                    backgroundColor: alpha(theme.palette.common.white, 0.05),
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mr: 2,
+                  }}
+                >
+                  <Science sx={{ color: 'white', fontSize: 28 }} />
                 </Box>
-                <Typography variant="body2" sx={{ opacity: 0.8, mb: 3, lineHeight: 1.6 }}>
-                  Advanced ML-powered platform for heavy metal pollution analysis in groundwater. 
-                  Designed for CGWB scientists and environmental policymakers.
-                </Typography>
-                
-                {/* Contact Info */}
-                <Stack spacing={1}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Email sx={{ fontSize: 16, mr: 1, opacity: 0.7 }} />
-                    <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                      support@hmpi-platform.gov.in
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Phone sx={{ fontSize: 16, mr: 1, opacity: 0.7 }} />
-                    <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                      +91-11-2345-6789
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <LocationOn sx={{ fontSize: 16, mr: 1, opacity: 0.7 }} />
-                    <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                      New Delhi, India
-                    </Typography>
-                  </Box>
-                </Stack>
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
+                    HMPI Platform
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: theme.palette.grey[400] }}>
+                    Advancing Groundwater Analysis
+                  </Typography>
+                </Box>
               </Box>
+              <Typography variant="body2" sx={{ lineHeight: 1.7, maxWidth: '420px' }}>
+                Leveraging machine learning to provide actionable insights for environmental scientists and policymakers in India.
+              </Typography>
             </Grid>
 
-            {/* Links Sections */}
-            <Grid item xs={12} md={8}>
-              <Grid container spacing={3}>
-                <Grid item xs={6} sm={3}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                    Platform
-                  </Typography>
-                  <Stack spacing={1}>
-                    {footerLinks.platform.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                          opacity: 0.8,
-                          fontSize: '0.875rem',
-                          '&:hover': {
-                            opacity: 1,
-                            color: theme.palette.primary.light,
-                          },
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </Stack>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                    Resources
-                  </Typography>
-                  <Stack spacing={1}>
-                    {footerLinks.resources.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                          opacity: 0.8,
-                          fontSize: '0.875rem',
-                          '&:hover': {
-                            opacity: 1,
-                            color: theme.palette.primary.light,
-                          },
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </Stack>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                    Support
-                  </Typography>
-                  <Stack spacing={1}>
-                    {footerLinks.support.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                          opacity: 0.8,
-                          fontSize: '0.875rem',
-                          '&:hover': {
-                            opacity: 1,
-                            color: theme.palette.primary.light,
-                          },
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </Stack>
-                </Grid>
-
-                <Grid item xs={6} sm={3}>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, fontSize: '1rem' }}>
-                    Legal
-                  </Typography>
-                  <Stack spacing={1}>
-                    {footerLinks.legal.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        color="inherit"
-                        underline="none"
-                        sx={{
-                          opacity: 0.8,
-                          fontSize: '0.875rem',
-                          '&:hover': {
-                            opacity: 1,
-                            color: theme.palette.primary.light,
-                          },
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </Stack>
-                </Grid>
-              </Grid>
+            {/* Newsletter Signup */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontWeight: 600, color: 'white', mb: 1 }}>
+                Stay Updated
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 2.5, color: theme.palette.grey[400] }}>
+                Join our mailing list for platform updates and research highlights.
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <InputBase
+                  placeholder="Enter your email"
+                  sx={{
+                    flexGrow: 1,
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: alpha(theme.palette.common.white, 0.08),
+                    borderRadius: '8px',
+                    color: 'white',
+                    fontSize: '0.9rem',
+                    transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: alpha(theme.palette.common.white, 0.12),
+                    },
+                    '&.Mui-focused': {
+                      backgroundColor: alpha(theme.palette.common.white, 0.12),
+                      boxShadow: `0 0 0 2px ${theme.palette.primary.main}`,
+                    },
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    px: 2,
+                    py: 1.5,
+                    borderRadius: '8px',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      boxShadow: 'none',
+                      transform: 'translateY(-1px)',
+                    },
+                  }}
+                >
+                  <ArrowForward />
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         </Box>
 
         <Divider sx={{ borderColor: alpha(theme.palette.common.white, 0.1) }} />
 
-        {/* Bottom Footer */}
+        {/* Bottom Section: Copyright, Links, and Socials */}
         <Box
           sx={{
             py: 3,
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
+            flexDirection: { xs: 'column', md: 'row' },
             justifyContent: 'space-between',
             alignItems: 'center',
             gap: 2,
           }}
         >
-          <Typography variant="body2" sx={{ opacity: 0.7 }}>
-            © 2024 Heavy Metal Pollution Index Platform. All rights reserved. | Government of India
+          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+            © {new Date().getFullYear()} Heavy Metal Pollution Index Platform | NIC, India
           </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {/* Social Links */}
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <IconButton
-                size="small"
+          <Stack direction="row" alignItems="center" spacing={{ xs: 2, sm: 3 }}>
+            {/* Footer Links */}
+            {footerLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                underline="none"
                 sx={{
-                  color: 'white',
-                  opacity: 0.7,
-                  '&:hover': {
-                    opacity: 1,
-                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease',
+                  fontSize: '0.8rem',
+                  color: theme.palette.grey[400],
+                  transition: 'color 0.2s',
+                  '&:hover': { color: 'white' },
                 }}
               >
-                <GitHub fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                sx={{
-                  color: 'white',
-                  opacity: 0.7,
-                  '&:hover': {
-                    opacity: 1,
-                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <LinkedIn fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                sx={{
-                  color: 'white',
-                  opacity: 0.7,
-                  '&:hover': {
-                    opacity: 1,
-                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                    transform: 'translateY(-2px)',
-                  },
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                <Twitter fontSize="small" />
-              </IconButton>
-            </Box>
-
-            {/* Back to Top Button */}
-            <IconButton
-              onClick={scrollToTop}
-              sx={{
-                ml: 2,
-                bgcolor: alpha(theme.palette.primary.main, 0.1),
-                color: theme.palette.primary.light,
-                '&:hover': {
-                  bgcolor: alpha(theme.palette.primary.main, 0.2),
-                  transform: 'translateY(-2px)',
-                },
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <ArrowUpward fontSize="small" />
-            </IconButton>
-          </Box>
+                {link.name}
+              </Link>
+            ))}
+            
+            <Divider orientation="vertical" flexItem sx={{ borderColor: alpha(theme.palette.common.white, 0.2), display: { xs: 'none', sm: 'block' } }} />
+            
+            {/* Social Icons */}
+            <Stack direction="row" spacing={1}>
+              {[<GitHub />, <LinkedIn />, <Twitter />].map((icon, index) => (
+                <IconButton
+                  key={index}
+                  size="small"
+                  sx={{
+                    color: theme.palette.grey[500],
+                    '&:hover': { color: 'white', backgroundColor: 'transparent' },
+                    transition: 'color 0.2s ease',
+                  }}
+                >
+                  {React.cloneElement(icon, { sx: { fontSize: 20 } })}
+                </IconButton>
+              ))}
+            </Stack>
+          </Stack>
         </Box>
       </Container>
     </Box>
   );
 };
 
-export default Footer;
+export default MinimalistFooter;
