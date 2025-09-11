@@ -53,6 +53,7 @@ const navLinks = [
   { name: 'Upload', path: '/upload', authRequired: true },
   { name: 'Regional Check', path: '/regional-check', authRequired: false },
   { name: 'Forecast', path: '/forecast', authRequired: false },
+  { name: 'Map', path: '/map', authRequired: false }
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {

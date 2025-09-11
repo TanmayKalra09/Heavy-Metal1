@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ToastContainer } from 'react-toastify';
+import 'leaflet/dist/leaflet.css';
 import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 

@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import Upload from './pages/Upload';
 import RegionalCheck from './pages/RegionalCheck';
 import Forecast from './pages/Forecast';
+import Map from './pages/Map';
 
 interface User {
   id: string;
@@ -100,6 +101,10 @@ function App() {
           <Route
             path="/forecast"
             element={<Forecast />}
+          />
+          <Route
+            path="/map"
+            element={<Map />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
