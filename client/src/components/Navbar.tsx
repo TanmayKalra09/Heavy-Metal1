@@ -51,6 +51,8 @@ interface NavbarProps {
 const navLinks = [
   { name: 'Dashboard', path: '/dashboard', authRequired: true },
   { name: 'Upload', path: '/upload', authRequired: true },
+  { name: 'Regional Check', path: '/regional-check', authRequired: false },
+  { name: 'Forecast', path: '/forecast', authRequired: false },
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
@@ -168,8 +170,8 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
               }}
             />
             {navLinks.map((link) => (
-              // This logic now correctly only shows links if auth is required AND user exists.
-              (link.authRequired ? user : true) && (
+              // Show link if no auth required OR if auth required and user exists
+              (!link.authRequired || user) && (
                 <Button
                   key={link.name}
                   component={NavLink}
@@ -271,13 +273,13 @@ const Navbar: React.FC<NavbarProps> = ({ user, onLogout }) => {
 
           {/* Mobile Navigation Menu Dropdown */}
           <Menu anchorEl={anchorElNav} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} PaperProps={menuPaperStyles}>
-             {/* Show links for logged-in users */}
-             {user && navLinks.filter(l => l.authRequired).map(link => (
+             {/* Show all available links based on auth requirements */}
+             {navLinks.filter(link => !link.authRequired || user).map(link => (
                 <MenuItem key={link.name} onClick={() => { navigate(link.path); handleCloseNavMenu(); }}>{link.name}</MenuItem>
              ))}
 
-             {/* Add a divider if both sections will show */}
-             {user && !user && <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }} />}
+             {/* Add a divider if login/register will show */}
+             {!user && <Divider sx={{ borderColor: 'rgba(0, 0, 0, 0.08)' }} />}
 
              {/* Show login/register for guests */}
              {!user && (

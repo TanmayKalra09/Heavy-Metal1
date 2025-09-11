@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './pages/Upload';
+import RegionalCheck from './pages/RegionalCheck';
+import Forecast from './pages/Forecast';
 
 interface User {
   id: string;
@@ -90,6 +92,14 @@ function App() {
                 <Upload user={user || guestUser} />
               </Container>
             }
+          />
+          <Route
+            path="/regional-check"
+            element={<RegionalCheck />}
+          />
+          <Route
+            path="/forecast"
+            element={<Forecast />}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
