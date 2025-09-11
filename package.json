@@ -1,0 +1,26 @@
+{
+  "name": "heavy-metal-sih",
+  "version": "1.0.0",
+  "description": "Heavy Metal Pollution Index Application",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "water-quality",
+    "pollution-index",
+    "environmental-monitoring",
+    "react",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -59,19 +59,37 @@ export const authService = {
   // Login user
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     const response = await authAPI.post('/auth/login', credentials);
-    return response.data;
+    return {
+      user: {
+        id: response.data.data._id,
+        name: response.data.data.name,
+        email: response.data.data.email
+      },
+      token: response.data.data.token
+    };
   },
 
   // Register new user
   register: async (userData: RegisterData): Promise<AuthResponse> => {
     const response = await authAPI.post('/auth/register', userData);
-    return response.data;
+    return {
+      user: {
+        id: response.data.data._id,
+        name: userData.name,
+        email: response.data.data.email
+      },
+      token: response.data.data.token
+    };
   },
 
   // Verify token and get user info
   verifyToken: async (): Promise<User> => {
     const response = await authAPI.get('/auth/verify');
-    return response.data.user;
+    return {
+      id: response.data.user.id,
+      name: response.data.user.name,
+      email: response.data.user.email
+    };
   },
 
   // Logout user
@@ -84,13 +102,21 @@ export const authService = {
   // Get current user profile
   getProfile: async (): Promise<User> => {
     const response = await authAPI.get('/auth/profile');
-    return response.data.user;
+    return {
+      id: response.data.user.id,
+      name: response.data.user.name,
+      email: response.data.user.email
+    };
   },
 
   // Update user profile
   updateProfile: async (userData: Partial<User>): Promise<User> => {
     const response = await authAPI.put('/auth/profile', userData);
-    return response.data.user;
+    return {
+      id: response.data.user.id,
+      name: response.data.user.name,
+      email: response.data.user.email
+    };
   },
 };
 
